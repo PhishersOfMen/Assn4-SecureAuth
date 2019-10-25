@@ -5,6 +5,5 @@ PORT = 8000
 
 Handler = http.server.CGIHTTPRequestHandler
 
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print("serving at port", PORT)
-    httpd.serve_forever()
+print("serving at port", PORT)
+socketserver.TCPServer(("", PORT), Handler).serve_forever()
