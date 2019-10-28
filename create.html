@@ -5,10 +5,58 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Create Account</title>
+    <script>
+        function saveUserId() {
+            let user = document.getElementById("user");
+            window.localStorage.setItem("User", user.value);
+        }
+    </script>
 </head>
 
 <body>
     <h1>Create Account</h1>
+    <div>
+        <form action="cgi-bin/create_user.py" method="POST">
+            First Name: <br>
+            <input type="text" name="firstname">
+            <br>
+            Last Name: <br>
+            <input type="text" name="lastname">
+            <br>
+            Date of Birth: <br>
+            <input type="date" name="dob">
+            <br>
+            Telephone Number (Format: xxx-xxx-xxxx): <br>
+            <input type="tel" name="phone">
+            <br>
+            Mailing Address: <br>
+            Street Address: <br>
+            <input type="text" name="streetname">
+            <br>
+            Apt. No.: <br>
+            <input type="text" name="aptnumber">
+            <br>
+            City: <br>
+            <input type="text" name="city">
+            <br>
+            State: <br>
+            <input type="text" name="state">
+            <br>
+            Zip Code: <br>
+            <input type="number" name="zipcode">
+            <br>
+            Email ID (will be used as User ID for account): <br>
+            <input type="email" name="emailid" id="user">
+            <br>
+            <input type="submit" value="SUBMIT" onclick="saveUserId()">
+        </form>
+    </div>
+    <!-- <div>
+        <form>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="">
+        </form>
+    </div> -->
 </body>
 
 </html>
