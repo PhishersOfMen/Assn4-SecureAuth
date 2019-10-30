@@ -6,11 +6,16 @@ Created on Fri Oct 25 13:58:24 2019
 """
 import os
 import os.path
-ENHANCED = "Enhanced.txt"
-if(os.path.isfile("Enhanced.txt") == True):
-    os.remove("Enhanced.txt") 
 
-f = open(ENHANCED,"a")
+
+if(os.path.isfile("Enhanced.txt") == True):
+        os.remove("Enhanced.txt") 
+f = open("Enhanced.txt","a")
+
+
+def readySetGo(doc): 
+    
+    stringConvert(doc)
 
 def lastCap(word):
     newWord = ""
@@ -199,12 +204,12 @@ def replacer(word):
 def enum(word):
     newWord = ""
     newerWord = ""
-    for i in range(0,100):
+    for i in range(0,10):
         newWord =  word + str(i)
         f.write(newWord)
         f.write(" ")
         replacer(newWord)
-        for j in range(0,9):
+        for j in range(0,10):
             if(j ==0):
                 newerWord = newWord + "!"
             elif(j == 1):
@@ -225,6 +230,8 @@ def enum(word):
                 newerWord = newWord + "+"
             elif(j == 8):
                 newerWord = newWord + "?"
+            elif(j == 9):
+                newerWord = newWord + "_"
             else: 
                 newerWord = newWord + "~"
             f.write(newerWord)
@@ -299,6 +306,5 @@ def stringConvert(words):
         f.write("\n")
        
        
-reader = ("words.txt")
-stringConvert(reader)
+readySetGo("words.txt")
 f.close()
