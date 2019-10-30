@@ -57,7 +57,7 @@
           const URL = "./cgi-bin/auth.py";
           const params = {
             method: "POST",
-            body: JSON.stringify({ username: password, password: password })
+            body: JSON.stringify({ username: username, password: password })
           };
 
           fetch(URL, params)
