@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 import cgi
 import json
-import asyncio
+# import asyncio
+from wordPlay import stringConvert
 
-async def info(stuff):
-    # TODO: Call function to generate list for variations of personal info
-    pass
+# async def info(stuff):
+#     # TODO: Call function to generate list for variations of personal info
+#     pass
 
 form = cgi.FieldStorage()
 
+filename = "user_info.txt"
 data = {}
 
 data['firstName'] = form.getvalue('firstname')
@@ -22,10 +24,11 @@ data['state'] = form.getvalue('state')
 data['zipCode'] = form.getvalue('zipcode')
 data['userId'] = form.getvalue("emailid")
 
-with open("user_info.txt", "w+") as file:
+with open(filename, "w+") as file:
     json.dump(data, file)
 
-asyncio.run(info(data))
+stringConvert(filename)
+# asyncio.run(info(data))
 
 print("Content-Type: text/html\n\n")
 
