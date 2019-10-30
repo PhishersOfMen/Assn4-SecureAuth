@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 import cgi
 import json
+import asyncio
+
+async def info(stuff):
+    # TODO: Call function to generate list for variations of personal info
+    pass
 
 form = cgi.FieldStorage()
 
@@ -20,7 +25,7 @@ data['userId'] = form.getvalue("emailid")
 with open("user_info.txt", "w+") as file:
     json.dump(data, file)
 
-# TODO: Call function to generate list for variations of personal info
+asyncio.run(info(data))
 
 print("Content-Type: text/html\n\n")
 
