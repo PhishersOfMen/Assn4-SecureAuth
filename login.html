@@ -10,12 +10,12 @@
     <h1>Login</h1>
     <div>
       <div>
-        <span>Email:</span>
-        <input type="text" name="email" />
+        <span>Email / Username:</span>
+        <input id="usr" type="text" name="email" />
       </div>
       <div>
         <span>Password:</span>
-        <input type="password" name="pass" />
+        <input id="pass" type="password" name="password" />
       </div>
       <div>
         <button id="loginButton" type="button" onclick="login()">Login</button>
@@ -23,22 +23,20 @@
     </div>
     <div>
       <span id="errorLog"></span>
-      <!-- <span>Errors: </span> -->
     </div>
 
     <script>
       var isLockedOut = false;
       var lockoutTime = 0;
       var loginAttempts = 0;
-      var validPassword = false;
       function lock() {
         isLockedOut = true;
         setTimeout(unlock, 2 ** lockoutTime * 1000);
-        lockoutTime++;
         document.getElementById("loginButton").disabled = true;
         error(
           `You have been locked out for ${2 ** lockoutTime * 1000} seconds`
         );
+        lockoutTime++;
       }
       function unlock() {
         isLockedOut = false;
@@ -49,33 +47,38 @@
         document.getElementById("errorLog").innerHTML = message;
       }
       function login() {
-        console.log(
-          "Locked out",
-          isLockedOut,
-          "Time",
-          lockoutTime,
-          "Attempts",
-          loginAttempts
-        );
         if (isLockedOut) {
           error(
             `You have been locked out for ${2 ** lockoutTime * 1000} seconds`
           );
         } else {
-          //CALL FUNCTION
-          if (validPassword) {
-            //Check password
-            lockoutTime = 0;
-            loginAttempts = 0;
-          } else {
-            loginAttempts++;
-            if (loginAttempts >= 3) lock();
-            else
-              error(
-                `Email or Password is incorrect. Attempts remaining: ${3 -
-                  loginAttempts}`
-              );
-          }
+          var username = document.getElementById("usr").value;
+          var password = document.getElementById("pass").value;
+          const URL = "./cgi-bin/auth.py";
+          const params = {
+            method: "POST",
+            body: JSON.stringify({ username: password, password: password })
+          };
+
+          fetch(URL, params)
+            .then(response => {
+              return response.json();
+            })
+            .then(data => {
+              if (data.match) {
+                //Check password
+                lockoutTime = 0;
+                loginAttempts = 0;
+              } else {
+                loginAttempts++;
+                if (loginAttempts >= 3) lock();
+                else
+                  error(
+                    `Email or Password is incorrect. Attempts remaining: ${3 -
+                      loginAttempts}`
+                  );
+              }
+            });
         }
       }
     </script>
