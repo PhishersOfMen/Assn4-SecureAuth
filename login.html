@@ -66,9 +66,9 @@
             })
             .then(data => {
               if (data.match) {
-                //Check password
                 lockoutTime = 0;
                 loginAttempts = 0;
+                // LOGIN!
               } else {
                 loginAttempts++;
                 if (loginAttempts >= 3) lock();
