@@ -57,11 +57,11 @@
           const URL = "./cgi-bin/auth.py";
           const params = {
             method: "POST",
-            body: JSON.stringify({ username: username, password: password })
+            body: JSON.stringify({ username, password })
           };
-
           fetch(URL, params)
             .then(response => {
+              console.log(response);
               return response.json();
             })
             .then(data => {
@@ -69,6 +69,7 @@
                 lockoutTime = 0;
                 loginAttempts = 0;
                 // LOGIN!
+                console.log("SUCCESS!");
               } else {
                 loginAttempts++;
                 if (loginAttempts >= 3) lock();

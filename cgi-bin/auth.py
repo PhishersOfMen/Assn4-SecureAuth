@@ -33,4 +33,5 @@ payload = {}
 payload["match"] = phash == hashed_password
 
 print("Content-Type: application/json")
+print()
 print(json.dumps(payload))
