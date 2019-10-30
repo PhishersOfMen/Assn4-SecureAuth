@@ -7,7 +7,9 @@ def _generate_salt():
 
 
 def _print_to_file(filename, user, text):
-    pass
+    file = open(filename, "a+")
+    file.write(f"{user} {text}")
+    file.close()
 
 
 def save_password(user, password):
