@@ -1,14 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Login</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <h1>Login</h1>
-</body>
+    <div>
+      <div>
+        <span>Email / Username:</span>
+        <input id="usr" type="text" name="email" />
+      </div>
+      <div>
+        <span>Password:</span>
+        <input id="pass" type="password" name="password" />
+      </div>
+      <div>
+        <button id="loginButton" type="button" onclick="login()">Login</button>
+      </div>
+    </div>
+    <div>
+      <span id="errorLog"></span>
+    </div>
 
+    <script>
+      var isLockedOut = false;
+      var lockoutTime = 0;
+      var loginAttempts = 0;
+      function lock() {
+        isLockedOut = true;
+        setTimeout(unlock, 2 ** lockoutTime * 1000);
+        document.getElementById("loginButton").disabled = true;
+        error(1);
+        lockoutTime++;
+      }
+      function unlock() {
+        isLockedOut = false;
+        loginAttempts = 0;
+        document.getElementById("loginButton").disabled = false;
+      }
+      function error(code) {
+        let message;
+        switch (code) {
+          default:
+          case 1:
+            message = `You have been locked out for ${2 ** lockoutTime *
+              1000} miliseconds`;
+            break;
+          case 2:
+            message = `Email or Password is incorrect. Attempts remaining: ${3 -
+              loginAttempts}`;
+            break;
+          case 3:
+            message = "Login Successful!";
+            break;
+        }
+        document.getElementById("errorLog").innerHTML = message;
+      }
+      function login() {
+        if (isLockedOut) {
+          error(1);
+        } else {
+          var username = document.getElementById("usr").value;
+          var password = document.getElementById("pass").value;
+          const URL = "./cgi-bin/auth.py";
+          const params = {
+            method: "POST",
+            body: JSON.stringify({ username, password })
+          };
+          fetch(URL, params)
+            .then(response => {
+              return response.json();
+            })
+            .then(data => {
+              if (data.match) {
+                lockoutTime = 0;
+                loginAttempts = 0;
+                error(3);
+              } else {
+                loginAttempts++;
+                if (loginAttempts >= 3) lock();
+                else error(2);
+              }
+            });
+        }
+      }
+    </script>
+  </body>
 </html>
