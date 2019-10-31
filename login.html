@@ -33,9 +33,7 @@
         isLockedOut = true;
         setTimeout(unlock, 2 ** lockoutTime * 1000);
         document.getElementById("loginButton").disabled = true;
-        error(
-          `You have been locked out for ${2 ** lockoutTime * 1000} seconds`
-        );
+        error(1);
         lockoutTime++;
       }
       function unlock() {
@@ -43,14 +41,27 @@
         loginAttempts = 0;
         document.getElementById("loginButton").disabled = false;
       }
-      function error(message) {
+      function error(code) {
+        let message;
+        switch (code) {
+          default:
+          case 1:
+            message = `You have been locked out for ${2 ** lockoutTime *
+              1000} miliseconds`;
+            break;
+          case 2:
+            message = `Email or Password is incorrect. Attempts remaining: ${3 -
+              loginAttempts}`;
+            break;
+          case 3:
+            message = "Login Successful!";
+            break;
+        }
         document.getElementById("errorLog").innerHTML = message;
       }
       function login() {
         if (isLockedOut) {
-          error(
-            `You have been locked out for ${2 ** lockoutTime * 1000} seconds`
-          );
+          error(1);
         } else {
           var username = document.getElementById("usr").value;
           var password = document.getElementById("pass").value;
@@ -61,23 +72,17 @@
           };
           fetch(URL, params)
             .then(response => {
-              console.log(response);
               return response.json();
             })
             .then(data => {
               if (data.match) {
                 lockoutTime = 0;
                 loginAttempts = 0;
-                // LOGIN!
-                console.log("SUCCESS!");
+                error(3);
               } else {
                 loginAttempts++;
                 if (loginAttempts >= 3) lock();
-                else
-                  error(
-                    `Email or Password is incorrect. Attempts remaining: ${3 -
-                      loginAttempts}`
-                  );
+                else error(2);
               }
             });
         }
