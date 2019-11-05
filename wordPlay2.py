@@ -7,15 +7,15 @@ Created on Fri Oct 25 13:58:24 2019
 import os
 import os.path
 
-if(os.path.isfile("Enhanced.txt") == True):
-        os.remove("Enhanced.txt") 
-f = open("Enhanced.txt","a")
+if(os.path.isfile("Enhanced2.txt") == True):
+        os.remove("Enhanced2.txt") 
+f = open("Enhanced2.txt","a")
 
 
 
 def readySetGo(word): 
     
-    stringConvert1(word)
+    stringConvert(word)
 
 def lastCap(word):
     newWord = ""
@@ -240,7 +240,8 @@ def enum(word):
     
         
         
-def stringConvert1(words):   
+def stringConvert(words):  
+    counter = 1
     reader = open(words,"r")
     maker = reader.readlines()
     for wording in maker:
@@ -259,9 +260,27 @@ def stringConvert1(words):
         ThreeLastCapForwards = lastCap(threeWord)
         ThreeFirstCapBackwards = firstCap(threeBackwards)
         ThreeFirstCapForwards = firstCap(threeWord)
-        f.write('{ "')
-        f.write(word)
-        f.write('": ')
+        f.write("{")
+        if(counter == 1):
+            f.write('"firstName": ')
+        elif(counter == 2):
+            f.write('"lastName": ')
+        elif(counter == 3):
+            f.write('"dob": ')
+        elif(counter == 4):
+            f.write('"phone": ')
+        elif(counter == 5):
+            f.write('"street": ')
+        elif(counter ==6):
+            f.write('"apt": ')
+        elif(counter == 7):
+            f.write('"city": ')
+        elif(counter == 8):
+            f.write('"state": ')
+        elif(counter == 9):
+            f.write('"zipCode": ')
+        elif(counter == 10):
+            f.write('"userId": ')
         f.write(word)
         f.write(", ")
         f.write(backWord)
@@ -308,7 +327,8 @@ def stringConvert1(words):
         enum(ThreeFirstCapForwards)
         f.write(" }")
         f.write("\n")
+        counter += 1
        
        
-readySetGo("words.txt")
+readySetGo("user_info.txt")
 f.close()
