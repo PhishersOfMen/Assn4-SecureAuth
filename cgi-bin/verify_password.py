@@ -29,9 +29,32 @@ def validate(password, variants):
         return {'valid': True, 'error': ""}
 
 data = json.load(sys.stdin)
+variants = {}
 
-# TODO: Call function to see if personal info variant exists
-variants = {'firstName': "", 'lastName': "", 'dob': "", 'phone': "", 'street': "", 'city': "", 'state': "", 'zipCode': "", 'userId': ""}
+stuff = []
+with open("Enhanced2.txt", 'r') as f:
+    for el in f:
+        stuff.append(el.rstrip().strip(':'))
+temp = []
+for el in stuff:
+    temp0 = ""
+    temp1 = el[1].strip(',')
+    for e in temp1:
+        temp0 += e
+    temp.append(temp0.split(' '))
+
+variants['firstName'] = temp[0]
+variants['lastName'] = temp[1]
+variants['dob'] = temp[2]
+variants['phone'] = temp[3]
+variants['street'] = temp[4]
+if len(temp == 10):
+    variants['apt'] = temp[5]
+variants['city'] = temp[-4]
+variants['state'] = temp[-3]
+variants['zipCode'] = temp[-2]
+variants['userId'] = temp[-1]
+# variants = {'firstName': "", 'lastName': "", 'dob': "", 'phone': "", 'street': "", 'city': "", 'state': "", 'zipCode': "", 'userId': ""}
 
 return_data = validate(data['password'], variants)
 
