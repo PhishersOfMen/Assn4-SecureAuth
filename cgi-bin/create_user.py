@@ -1,12 +1,8 @@
 #!/usr/bin/env python3
+import sys
 import cgi
 import json
-# import asyncio
-from wordPlay import stringConvert
-
-# async def info(stuff):
-#     # TODO: Call function to generate list for variations of personal info
-#     pass
+from Test import test
 
 form = cgi.FieldStorage()
 
@@ -27,8 +23,7 @@ data['userId'] = form.getvalue("emailid")
 with open(filename, "w+") as file:
     json.dump(data, file)
 
-stringConvert(filename)
-# asyncio.run(info(data))
+import wordPlay2
 
 print("Content-Type: text/html\n\n")
 
