@@ -2,7 +2,6 @@
 import sys
 import cgi
 import json
-from Test import test
 
 form = cgi.FieldStorage()
 

@@ -26,7 +26,7 @@ def validate(password, variants):
     elif variants['userId']:
         return {'valid': False, 'error': "Invalid Password: Don't use your email address."}
     else:
-        return {'valid': True, 'error': ""}
+        return {'valid': True}
 
 data = json.load(sys.stdin)
 variants = {}
@@ -54,7 +54,6 @@ variants['city'] = temp[-4]
 variants['state'] = temp[-3]
 variants['zipCode'] = temp[-2]
 variants['userId'] = temp[-1]
-# variants = {'firstName': "", 'lastName': "", 'dob': "", 'phone': "", 'street': "", 'city': "", 'state': "", 'zipCode': "", 'userId': ""}
 
 return_data = validate(data['password'], variants)
 
@@ -62,4 +61,5 @@ if return_data['valid']:
     save_password(data['username'], data['password'])
 
 print("Content-Type: application/json")
+print()
 print(json.dumps(return_data))
