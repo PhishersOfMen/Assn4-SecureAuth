@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 import json
-import sys
+import cgi
 import hashlib
 
-data = json.load(sys.stdin)
+form = cgi.FieldStorage()
 
-user = data["username"]
-pwd = data["password"]
+user = form.getvalue("username")
+pwd = form.getvalue("password")
 
 s = {}
-with open("salt.txt", "r") as f:
+with open("salt.txt", "r+") as f:
     for line in f:
         (key, val) = line.split()
         s[key] = val
 
 p = {}
-with open("password.txt", "r") as f:
+with open("passwords.txt", "r+") as f:
     for line in f:
         (key, val) = line.split()
         p[key] = val
@@ -32,6 +32,6 @@ payload = {}
 
 payload["match"] = phash == hashed_password
 
-print("Content-Type: application/json")
+print("Content-type: application/json")
 print()
-print(json.dumps(payload))
+print(json.dumps({"match": (phash == hashed_password)}, separators=(',', ':')))
