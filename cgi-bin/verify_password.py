@@ -3,8 +3,10 @@ import cgi
 import json
 from save_password import save_password
 
-def validate(password, variants):   
-    if password in variants['firstName']:
+def validate(password, variants): 
+    if password == "":
+        return {'valid': False, 'error': "Must have a password."}
+    elif password in variants['firstName']:
         return {'valid': False, 'error': "Invalid Password: Don't use your first name."}
     elif password in variants['lastName']:
         return {'valid': False, 'error': "Invalid Password: Don't use your last name."}
@@ -24,13 +26,15 @@ def validate(password, variants):
         return {'valid': False, 'error': "Invalid Password: Don't use your zip code."}
     elif password in variants['userId']:
         return {'valid': False, 'error': "Invalid Password: Don't use your email address."}
+    elif password in variants['dictionary']:
+        return {'valid': False, 'error': "Invalid Password: Don't use a password that is commonly used."}
     else:
         return {'valid': True}
 
 data = cgi.FieldStorage()
 
-username = data.getvalue("username", default="email@address.com")
-password = data.getvalue("password", default="Me")
+username = data.getvalue("username", default="")
+password = data.getvalue("password", default="")
 
 variants = {}
 
@@ -46,6 +50,20 @@ for el in stuff:
         temp0 += e
     temp.append(temp0.split(' ')[:-1])
 
+stuff2 = []
+with open("cgi-bin/Enhanced.txt", 'r') as f:
+    for el in f:
+        stuff2.append(el.rstrip().split(':'))
+temp2 = []
+for el in stuff2:
+    temp3 = ""
+    temp4 = el[1].split(',')
+    for e in temp4:
+        temp3 += e
+    temp4 = temp3.split(' ')[:-1]
+    for i in temp4:
+        temp2.append(i)
+
 variants['firstName'] = temp[0]
 variants['lastName'] = temp[1]
 variants['dob'] = temp[2]
@@ -57,6 +75,8 @@ variants['city'] = temp[-4]
 variants['state'] = temp[-3]
 variants['zipCode'] = temp[-2]
 variants['userId'] = temp[-1]
+variants['dictionary'] = temp2
+
 
 return_data = validate(password, variants)
 
