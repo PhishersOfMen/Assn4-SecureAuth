@@ -5,8 +5,8 @@ import hashlib
 
 form = cgi.FieldStorage()
 
-user = form.getvalue("username")
-pwd = form.getvalue("password")
+user = form.getvalue("username", default="admin")
+pwd = form.getvalue("password", default="test")
 
 s = {}
 with open("salt.txt", "r+") as f:
