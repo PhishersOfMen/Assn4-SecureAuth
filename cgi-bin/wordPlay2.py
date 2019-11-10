@@ -242,8 +242,25 @@ def enum(word):
         
 def stringConvert(words):  
     counter = 1
-    reader = open(words,"r")
-    maker = reader.readlines()
+    reader = []
+    with open(words, 'r') as file:
+        for el in file:
+            reader.append(el)
+    # reader = open(words,"r")
+    maker = []
+    for el in reader:
+        temp0 = el.split(',')
+    temp1 = []
+    for el in temp0:
+        temp2 = el.split(':')
+        temp1.append(temp2[1])
+    for el in temp1:
+        if 'null' in el:
+            maker.append('null')
+            continue
+        temp3 = el.split('"')
+        maker.append(temp3[1])
+    # maker = reader.readlines()
     for wording in maker:
         word = wording.rstrip()
         backWord = word[::-1]

@@ -1,1 +1,0 @@
-{"firstName": "Me", "lastName": "Yu", "dob": null, "phone": "4564567894", "street": "123 Some Street", "apt": null, "city": "Somewhere", "state": "ID", "zipCode": "45648", "userId": "email@address.com"}
