@@ -8,7 +8,7 @@ def _generate_salt():
 
 def _print_to_file(filename, user, text):
     file = open(filename, "a+")
-    file.write(f"{user} {text}")
+    file.write(f"{user} {text}\n")
     file.close()
 
 

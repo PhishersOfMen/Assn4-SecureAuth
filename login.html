@@ -4,25 +4,24 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
   </head>
 
   <body>
-    <h1>Login</h1>
-    <div>
-      <div>
-        <span>Email / Username:</span>
+    <h1 class="title">Login</h1>
+    <div class="container">
+      <span id="errorLog" class="hide error"></span>
+      <div class="label-group">
+        <label for="email">Email / Username:</label>
         <input id="usr" type="text" name="email" />
       </div>
-      <div>
-        <span>Password:</span>
+      <div class="label-group">
+        <label for="password">Password:</label>
         <input id="pass" type="password" name="password" />
       </div>
       <div>
-        <button id="loginButton" type="button" onclick="login()">Login</button>
+        <button id="loginButton" class="btn" type="button" onclick="login()">Login</button>
       </div>
-    </div>
-    <div>
-      <span id="errorLog"></span>
     </div>
 
     <script>
@@ -32,17 +31,24 @@
       function lock() {
         isLockedOut = true;
         setTimeout(unlock, 2 ** lockoutTime * 1000 * 60);
-        document.getElementById("loginButton").disabled = true;
+        let loginBtn = document.getElementById("loginButton");
+        loginBtn.classList.add("disabled");
+        loginBtn.disabled = true;
         error(1);
         lockoutTime++;
       }
       function unlock() {
         isLockedOut = false;
         loginAttempts = 0;
-        document.getElementById("loginButton").disabled = false;
+        let loginBtn = document.getElementById("loginButton");
+        loginBtn.classList.remove("disabled");
+        loginBtn.disabled = false;
       }
       function error(code) {
         let message;
+        let errorLog = document.getElementById("errorLog");
+        errorLog.classList.add("error");
+        errorLog.classList.remove("success");
         switch (code) {
           default:
           case 1:
@@ -54,10 +60,13 @@
               loginAttempts}`;
             break;
           case 3:
+            errorLog.classList.remove("error");
+            errorLog.classList.add("success");
             message = "Login Successful!";
             break;
         }
-        document.getElementById("errorLog").innerHTML = message;
+        errorLog.classList.remove("hide");
+        errorLog.innerHTML = message;
       }
       function login() {
         if (isLockedOut) {

@@ -10,11 +10,12 @@
                 window.localStorage.setItem("User", user.value);
             }
         </script>
+        <link rel="stylesheet" href="styles.css">
     </head>
 
     <body>
-        <h1>Create Account</h1>
-        <div>
+        <h1 class="title">Create Account</h1>
+        <div class="container">
             <form action="cgi-bin/create_user.py" method="POST">
                 <label for="firstname">First Name</label>
                 <input type="text" name="firstname" required>
@@ -50,7 +51,7 @@
                 <label for="emailid">Email ID</label>
                 <input type="email" name="emailid" id="user" required> <br>
                 
-                <input type="submit" value="SUBMIT" onclick="saveUserId()">
+                <input class="btn" type="submit" value="SUBMIT" onclick="saveUserId()">
             </form>
         </div>
     </body>
